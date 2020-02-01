@@ -94,8 +94,6 @@ The four plots that you will need to construct are shown below.
 
 ### Plot 1
 ```
-setwd("~/Desktop/datasciencecoursera/Plotting project 1")
-
 main1 <- read.table("household_power_consumption.txt", header = TRUE, sep = ";",
                     stringsAsFactors = FALSE,dec = ".", na.strings = "?")
 main2 <- subset(main1, main1$Date == "1/2/2007")
@@ -112,20 +110,89 @@ xlab = "Global Active Power (kilowatts)")
 dev.off()
 ```
 
-![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2.png) 
+![plot1](plot1.png) 
 
 
 ### Plot 2
+```
+setwd("~/Desktop/datasciencecoursera/Plotting project 1")
 
-![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3.png) 
+main1 <- read.table("household_power_consumption.txt", header = TRUE, sep = ";",
+                    stringsAsFactors = FALSE,dec = ".", na.strings = "?")
+main2 <- subset(main1, main1$Date == "1/2/2007")
+main3 <- subset(main1, main1$Date == "2/2/2007")
+main <- rbind(main2, main3)
+
+datetime <- strptime(paste(main$Date, main$Time, sep=" "), "%d/%m/%Y %H:%M:%S")
+globalactive <- as.numeric(main$Global_active_power)
+
+png("plot2.png", width=480, height=480)
+
+plot(datetime, globalactive, type= "l", xlab="",ylab="Global Active Power (kilowatts)")
+
+dev.off()
+```
+
+![plot2](plot2.png) 
 
 
 ### Plot 3
+```
+main1 <- read.table("household_power_consumption.txt", header = TRUE, sep = ";",
+                    stringsAsFactors = FALSE,dec = ".", na.strings = "?")
+main2 <- subset(main1, main1$Date == "1/2/2007")
+main3 <- subset(main1, main1$Date == "2/2/2007")
+main <- rbind(main2, main3)
 
-![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4.png) 
+datetime <- strptime(paste(main$Date, main$Time, sep=" "), "%d/%m/%Y %H:%M:%S")
+meter1 <- as.numeric(main$Sub_metering_1)
+meter2 <- as.numeric(main$Sub_metering_2)
+meter3 <- as.numeric(main$Sub_metering_3)
+
+png("plot3.png", width=480, height=480)
+
+plot(datetime, meter1, type = "l", ylab = "Energy Submetering", xlab = "")
+lines(datetime, meter2, type = "l", col = "red")
+lines(datetime, meter3, type = "l", col = "blue")
+legend("topright", c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), lty = 1, col = c("black", "red", "blue"))
+
+dev.off()
+```
+
+![plot3](plot3.png) 
 
 
 ### Plot 4
+```
+main1 <- read.table("household_power_consumption.txt", header = TRUE, sep = ";",
+                    stringsAsFactors = FALSE,dec = ".", na.strings = "?")
+main2 <- subset(main1, main1$Date == "1/2/2007")
+main3 <- subset(main1, main1$Date == "2/2/2007")
+main <- rbind(main2, main3)
 
-![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5.png) 
+datetime <- strptime(paste(main$Date, main$Time, sep=" "), "%d/%m/%Y %H:%M:%S")
+globalactive <- as.numeric(main$Global_active_power)
+globalreactive <- as.numeric(main$Global_reactive_power)
+voltage <- as.numeric(main$Voltage)
+meter1 <- as.numeric(main$Sub_metering_1)
+meter2 <- as.numeric(main$Sub_metering_2)
+meter3 <- as.numeric(main$Sub_metering_3)
+
+png("plot4.png", width=480, height=480)
+par(mfrow = c(2,2))
+
+plot(datetime, globalactive, type = "l", xlab = "", ylab = "Global Active Power")
+plot(datetime, voltage, type = "l", xlab = "datetime", ylab = "Voltage")
+
+plot(datetime, meter1, type = "l", ylab = "Energy Submetering", xlab = "")
+lines(datetime, meter2, type = "l", col = "red")
+lines(datetime, meter3, type = "l", col = "blue")
+legend("topright", c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), lty = 1, col = c("black", "red", "blue"))
+
+plot(datetime, globalreactive, type = "l", xlab = "datetime", ylab = "Global_reactive_power")
+
+dev.off()
+```
+
+![plot4](plot4.png) 
 
